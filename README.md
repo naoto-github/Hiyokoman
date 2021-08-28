@@ -13,3 +13,11 @@ Chromeの仕様変更により，サウンド関係のライブラリでエラ�
 
 - [enchant.js](https://github.com/wise9/enchant.js)
 - [enchant.js-builds](https://github.com/ghelia/enchant.js-builds)
+
+## ゲーム素材
+
+下記に列挙するサイトのゲーム素材を利用させて頂いています．
+この場で感謝申し上げます．
+
+- [やさぐれひよこ素材](https://banraku-games.sakura.ne.jp/yasagure/index.html)
+- [魔王魂](https://maou.audio/rule/)
