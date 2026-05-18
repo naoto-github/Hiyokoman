@@ -17,6 +17,10 @@ class SceneManager:
         self.pop()
         self.push(scene)
 
+    def reset(self, scene: "Scene") -> None:  # type: ignore[name-defined]
+        self._stack.clear()
+        self._stack.append(scene)
+
     def update(self) -> None:
         if self._stack:
             self._stack[-1].update()

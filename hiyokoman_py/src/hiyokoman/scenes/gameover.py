@@ -18,6 +18,7 @@ class GameOverScene(Scene):
     ) -> None:
         super().__init__(scenes)
         self._htype = htype
+        self._stage = GameState.get().stage
         self._tick = 0
         AudioManager.get().stop_bgm()
         AudioManager.get().play_bgm("gameover")
@@ -26,9 +27,9 @@ class GameOverScene(Scene):
         self._tick += 1
         if pyxel.btnp(pyxel.KEY_SPACE) or pyxel.btnp(pyxel.KEY_RETURN):
             AudioManager.get().stop_bgm()
-            GameState.get().reset()
-            from .opening import OpeningScene
-            self._scenes.replace(OpeningScene(self._scenes))
+            GameState.get().score = 0
+            from .battle import BattleScene
+            self._scenes.replace(BattleScene(self._scenes, self._stage))
 
     def draw(self, screen: np.ndarray) -> None:
         fill(screen, 0)

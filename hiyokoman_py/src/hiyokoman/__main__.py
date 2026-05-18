@@ -42,6 +42,16 @@ class Game:
     def _update(self) -> None:
         if pyxel.btnp(pyxel.KEY_ESCAPE):
             pyxel.quit()
+
+        ctrl = pyxel.btn(pyxel.KEY_LCTRL) or pyxel.btn(pyxel.KEY_RCTRL)
+        if ctrl:
+            from .scenes.battle import BattleScene
+            for stage, key in ((1, pyxel.KEY_1), (2, pyxel.KEY_2), (3, pyxel.KEY_3), (4, pyxel.KEY_4)):
+                if pyxel.btnp(key):
+                    AudioManager.get().stop_bgm()
+                    self._scenes.reset(BattleScene(self._scenes, stage))
+                    return
+
         self._scenes.update()
 
     def _draw(self) -> None:
