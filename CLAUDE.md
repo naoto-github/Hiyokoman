@@ -4,15 +4,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Running the Game
 
-There is no build system, package manager, or test suite. Open `index.html` directly in a browser. Chrome is recommended; if sound errors occur, replace `js/enchant.js` with the build from [enchant.js-builds](https://github.com/ghelia/enchant.js-builds).
+There is no build system, package manager, or test suite. Open `hiyokoman_js/index.html` directly in a browser. Chrome is recommended; if sound errors occur, replace `hiyokoman_js/js/enchant.js` with the build from [enchant.js-builds](https://github.com/ghelia/enchant.js-builds).
 
 ## Architecture
 
 This is a 2014 browser-based action game built on [enchant.js](https://github.com/wise9/enchant.js) (development stopped). All game classes are created with `enchant.Class.create` and extend enchant base classes (`enchant.Scene`, `enchant.Sprite`, `enchant.Map`).
 
-**Script loading order matters.** `index.html` loads `js/Main.js` first because it defines the global `game` object and all type constants referenced by every other file. The remaining scripts are loaded in dependency order.
+**Script loading order matters.** `hiyokoman_js/index.html` loads `js/Main.js` first because it defines the global `game` object and all type constants referenced by every other file. The remaining scripts are loaded in dependency order.
 
-### Global State (`js/Main.js`)
+### Global State (`hiyokoman_js/js/Main.js`)
 
 All shared state lives on the `game` (`Core`) object:
 - `game.stage` — current stage number (1–4)
@@ -33,7 +33,7 @@ OpeningScene → BattleScene(1) → BattleScene(2) → BattleScene(3) → Battle
 
 Scenes are managed with `game.pushScene` / `game.popScene`. `TransformScene` is pushed on top of `BattleScene` and popped immediately, acting as a brief animation overlay.
 
-### BattleScene (`js/BattleScene.js`)
+### BattleScene (`hiyokoman_js/js/BattleScene.js`)
 
 The core game loop. All per-stage content (map tiles, monster nests, monster spawns, key positions, castle position, BGM) is selected via `switch(game.stage)` inside factory methods (`getNests`, `getMonsters`, `getKeys`, `getCastle`, `getBGM`, `getBackGround`). To add or modify stage content, edit these switch blocks.
 
@@ -43,13 +43,13 @@ Each frame, `BattleScene` runs collision detection between all active entity gro
 
 | File | Class | Notes |
 |------|-------|-------|
-| `js/Hiyoko.js` | `Hiyoko` | Player sprite; type determines image, weapon, and speed. Calls `new GameOverScene` on death. |
-| `js/Monster.js` | `Monster` | All monster types in one class, branched by `type`. WARM/DRAGON spawn projectile child monsters (ROCK/THUNDER) via `action()` return value, which `BattleScene` then adds to the scene. |
-| `js/Weapon.js` | `Weapon` | Projectile fired by Hiyoko; angle derived from current walking frame. |
-| `js/Nest.js` | `Nest` | Spawner that probabilistically creates new monsters each frame via `born()`. |
-| `js/Map.js` | `HiyokoMap` | Extends `enchant.Map`; tile data and `collisionData` hardcoded per stage. `isHit` wraps `hitTest` for wall collision; `isBroken` checks specific tile IDs for destructible tiles. |
-| `js/Key.js` | `Key` | Collectible; all keys must be collected before `Castle` becomes visible. |
-| `js/DropItem.js` | `DropItem` | Dropped by monsters on death; collecting APPLE/BANANA/GRAPES triggers `TransformScene` and changes Hiyoko type. |
+| `hiyokoman_js/js/Hiyoko.js` | `Hiyoko` | Player sprite; type determines image, weapon, and speed. Calls `new GameOverScene` on death. |
+| `hiyokoman_js/js/Monster.js` | `Monster` | All monster types in one class, branched by `type`. WARM/DRAGON spawn projectile child monsters (ROCK/THUNDER) via `action()` return value, which `BattleScene` then adds to the scene. |
+| `hiyokoman_js/js/Weapon.js` | `Weapon` | Projectile fired by Hiyoko; angle derived from current walking frame. |
+| `hiyokoman_js/js/Nest.js` | `Nest` | Spawner that probabilistically creates new monsters each frame via `born()`. |
+| `hiyokoman_js/js/Map.js` | `HiyokoMap` | Extends `enchant.Map`; tile data and `collisionData` hardcoded per stage. `isHit` wraps `hitTest` for wall collision; `isBroken` checks specific tile IDs for destructible tiles. |
+| `hiyokoman_js/js/Key.js` | `Key` | Collectible; all keys must be collected before `Castle` becomes visible. |
+| `hiyokoman_js/js/DropItem.js` | `DropItem` | Dropped by monsters on death; collecting APPLE/BANANA/GRAPES triggers `TransformScene` and changes Hiyoko type. |
 
 ### Sound Handling
 
@@ -59,4 +59,4 @@ enchant.js supports two audio backends. Both are handled wherever BGM is played:
 
 ### Custom Character Mode
 
-Set `game.original = true` in `js/Main.js` to replace one stage-1 SLIME nest with an ORIGINAL-type monster that uses `original/character.png` (32×32 sprite sheet) and `original/sound3.wav`. The `mapeditor/` directory contains standalone map data files not used by the main game.
+Set `game.original = true` in `hiyokoman_js/js/Main.js` to replace one stage-1 SLIME nest with an ORIGINAL-type monster that uses `hiyokoman_js/original/character.png` (32×32 sprite sheet) and `hiyokoman_js/original/sound3.wav`. The `hiyokoman_js/mapeditor/` directory contains standalone map data files not used by the main game.
