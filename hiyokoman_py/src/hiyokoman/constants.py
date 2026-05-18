@@ -58,5 +58,5 @@ STAGE_BG_COLOR: dict[int, int] = {
     4: 0,   # black (space)
 }
 
-# Asset root: two levels above hiyokoman_py/src/hiyokoman/
-ASSET_ROOT = Path(__file__).parents[3]
+# Asset root: hiyokoman_js/ directory at the repo root
+ASSET_ROOT = Path(__file__).parents[3] / "hiyokoman_js"
