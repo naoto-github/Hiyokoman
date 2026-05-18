@@ -4,7 +4,7 @@ import pyxel
 
 from .base import Scene
 from ..constants import SCREEN_WIDTH, SCREEN_HEIGHT
-from ..renderer import blit, fill
+from ..renderer import blit, fill, scaled_text
 from ..assets import Assets
 from ..audio import AudioManager
 from ..game_state import GameState
@@ -22,7 +22,7 @@ class ClearScene(Scene):
         self._time_left = time_left
         self._tick = 0
         AudioManager.get().stop_bgm()
-        AudioManager.get().play_bgm("clear")
+        AudioManager.get().play_bgm("clear", loops=0)
         state = GameState.get()
         state.score += time_left * 10
         self._score = state.score
@@ -49,9 +49,10 @@ class ClearScene(Scene):
         if assets.hiyoko_big:
             px, mk = assets.hiyoko_big[self._htype]
             blit(screen, px, mk, SCREEN_WIDTH // 2 - 64, 30)
-        pyxel.text(SCREEN_WIDTH // 2 - 12, SCREEN_HEIGHT // 2 + 50, "CLEAR!", 14)
-        pyxel.text(SCREEN_WIDTH // 2 - 28, SCREEN_HEIGHT // 2 + 62,
-                   f"SCORE: {self._score}", 15)
+        s = "CLEAR!"
+        scaled_text(screen, SCREEN_WIDTH // 2 - len(s) * pyxel.FONT_WIDTH, SCREEN_HEIGHT // 2 + 50, s, 14)
+        s = f"SCORE: {self._score}"
+        scaled_text(screen, SCREEN_WIDTH // 2 - len(s) * pyxel.FONT_WIDTH, SCREEN_HEIGHT // 2 + 64, s, 15)
         if (self._tick // 20) % 2 == 0:
-            pyxel.text(SCREEN_WIDTH // 2 - 40, SCREEN_HEIGHT // 2 + 76,
-                       "SPACE: CONTINUE", 15)
+            s = "SPACE: CONTINUE"
+            scaled_text(screen, SCREEN_WIDTH // 2 - len(s) * pyxel.FONT_WIDTH, SCREEN_HEIGHT // 2 + 78, s, 15)

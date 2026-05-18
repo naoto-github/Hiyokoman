@@ -58,6 +58,37 @@ def fill(dst: np.ndarray, color_idx: int) -> None:
     dst[:, :] = color_idx
 
 
+def scaled_text(
+    screen: np.ndarray,
+    x: int,
+    y: int,
+    text: str,
+    col: int,
+    scale: int = 2,
+) -> None:
+    """Render pyxel's built-in font scaled up by `scale` onto the screen array.
+
+    Uses row 0 of the screen as a temp scratch area (save/render/restore).
+    """
+    if not text:
+        return
+    fw, fh = pyxel.FONT_WIDTH, pyxel.FONT_HEIGHT
+    w = fw * len(text)
+    saved = screen[0:fh, 0:w].copy()
+    screen[0:fh, 0:w] = 0
+    pyxel.text(0, 0, text, col)
+    rendered = screen[0:fh, 0:w].copy()
+    screen[0:fh, 0:w] = saved
+    scaled_px = np.repeat(np.repeat(rendered, scale, axis=0), scale, axis=1)
+    sh, sw = scaled_px.shape
+    ey = min(y + sh, screen.shape[0])
+    ex = min(x + sw, screen.shape[1])
+    if ey <= y or ex <= x:
+        return
+    mask = scaled_px[:ey - y, :ex - x] == col
+    screen[y:ey, x:ex][mask] = col
+
+
 class SpriteSheet:
     """Precomputed quantized sprite sheet with frame extraction."""
 

@@ -4,7 +4,7 @@ import pyxel
 
 from .base import Scene
 from ..constants import SCREEN_WIDTH, SCREEN_HEIGHT
-from ..renderer import blit, fill
+from ..renderer import blit, fill, scaled_text
 from ..assets import Assets
 from ..audio import AudioManager
 from ..game_state import GameState
@@ -21,7 +21,7 @@ class GameOverScene(Scene):
         self._stage = GameState.get().stage
         self._tick = 0
         AudioManager.get().stop_bgm()
-        AudioManager.get().play_bgm("gameover")
+        AudioManager.get().play_bgm("gameover", loops=0)
 
     def update(self) -> None:
         self._tick += 1
@@ -37,9 +37,10 @@ class GameOverScene(Scene):
         if assets.hiyoko_big:
             px, mk = assets.hiyoko_big[self._htype]
             blit(screen, px, mk, SCREEN_WIDTH // 2 - 64, 30)
-        pyxel.text(SCREEN_WIDTH // 2 - 20, SCREEN_HEIGHT // 2 + 50, "GAME OVER", 12)
-        pyxel.text(SCREEN_WIDTH // 2 - 28, SCREEN_HEIGHT // 2 + 62,
-                   f"SCORE: {GameState.get().score}", 15)
+        s = "GAME OVER"
+        scaled_text(screen, SCREEN_WIDTH // 2 - len(s) * pyxel.FONT_WIDTH, SCREEN_HEIGHT // 2 + 50, s, 12)
+        s = f"SCORE: {GameState.get().score}"
+        scaled_text(screen, SCREEN_WIDTH // 2 - len(s) * pyxel.FONT_WIDTH, SCREEN_HEIGHT // 2 + 64, s, 15)
         if (self._tick // 20) % 2 == 0:
-            pyxel.text(SCREEN_WIDTH // 2 - 32, SCREEN_HEIGHT // 2 + 76,
-                       "SPACE: RETRY", 15)
+            s = "SPACE: RETRY"
+            scaled_text(screen, SCREEN_WIDTH // 2 - len(s) * pyxel.FONT_WIDTH, SCREEN_HEIGHT // 2 + 78, s, 15)

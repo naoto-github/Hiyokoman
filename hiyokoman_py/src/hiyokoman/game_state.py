@@ -5,6 +5,7 @@ class GameState:
         self.stage: int = 1
         self.score: int = 0
         self.original: bool = False
+        self.invincible: bool = False
 
     @classmethod
     def get(cls) -> "GameState":

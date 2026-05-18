@@ -61,13 +61,13 @@ class AudioManager:
 
         self._bgm_channel = self._mx.Channel(0)
 
-    def play_bgm(self, key: str) -> None:
+    def play_bgm(self, key: str, loops: int = -1) -> None:
         if not self._ok or key not in self._sounds:
             return
         snd = self._sounds[key]
         if self._bgm_channel:
             self._bgm_channel.stop()
-            self._bgm_channel.play(snd, loops=-1)
+            self._bgm_channel.play(snd, loops=loops)
 
     def stop_bgm(self) -> None:
         if self._ok and self._bgm_channel:

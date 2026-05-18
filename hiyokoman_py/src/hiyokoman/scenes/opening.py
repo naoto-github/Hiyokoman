@@ -4,7 +4,7 @@ import pyxel
 
 from .base import Scene
 from ..constants import SCREEN_WIDTH, SCREEN_HEIGHT, YELLOW
-from ..renderer import blit, fill
+from ..renderer import blit, fill, scaled_text
 from ..assets import Assets
 from ..audio import AudioManager
 from ..game_state import GameState
@@ -34,8 +34,8 @@ class OpeningScene(Scene):
             px, mk = assets.hiyoko_big[YELLOW]
             blit(screen, px, mk, SCREEN_WIDTH // 2 - 64, 40)
 
-        # Blinking start text
         if (self._tick // 15) % 2 == 0:
-            pyxel.text(SCREEN_WIDTH // 2 - 40, SCREEN_HEIGHT // 2 + 60, "SPACE: START", 15)
+            s = "SPACE: START"
+            scaled_text(screen, SCREEN_WIDTH // 2 - len(s) * pyxel.FONT_WIDTH, SCREEN_HEIGHT // 2 + 60, s, 15)
 
-        pyxel.text(4, 4, "HIYOKOMAN", 15)
+        scaled_text(screen, 4, 4, "HIYOKOMAN", 15)

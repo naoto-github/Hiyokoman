@@ -4,7 +4,7 @@ import pyxel
 
 from .base import Scene
 from ..constants import SCREEN_WIDTH, SCREEN_HEIGHT
-from ..renderer import blit, fill
+from ..renderer import blit, fill, scaled_text
 from ..assets import Assets
 from ..audio import AudioManager
 
@@ -38,4 +38,5 @@ class TransformScene(Scene):
         if assets.hiyoko_big:
             px, mk = assets.hiyoko_big[htype]
             blit(screen, px, mk, SCREEN_WIDTH // 2 - 64, SCREEN_HEIGHT // 2 - 64)
-        pyxel.text(SCREEN_WIDTH // 2 - 24, SCREEN_HEIGHT // 2 + 72, "TRANSFORM!", 14)
+        s = "TRANSFORM!"
+        scaled_text(screen, SCREEN_WIDTH // 2 - len(s) * pyxel.FONT_WIDTH, SCREEN_HEIGHT // 2 + 72, s, 14)

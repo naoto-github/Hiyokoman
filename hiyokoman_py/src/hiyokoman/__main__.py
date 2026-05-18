@@ -45,6 +45,8 @@ class Game:
 
         ctrl = pyxel.btn(pyxel.KEY_LCTRL) or pyxel.btn(pyxel.KEY_RCTRL)
         if ctrl:
+            if pyxel.btnp(pyxel.KEY_0):
+                GameState.get().invincible = not GameState.get().invincible
             from .scenes.battle import BattleScene
             for stage, key in ((1, pyxel.KEY_1), (2, pyxel.KEY_2), (3, pyxel.KEY_3), (4, pyxel.KEY_4)):
                 if pyxel.btnp(key):

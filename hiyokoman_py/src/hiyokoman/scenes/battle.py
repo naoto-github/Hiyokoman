@@ -10,7 +10,7 @@ from ..constants import (
     SCREEN_WIDTH, SCREEN_HEIGHT,
     STAGE_BG_COLOR,
 )
-from ..renderer import blit, fill
+from ..renderer import blit, fill, scaled_text
 from ..assets import Assets
 from ..audio import AudioManager
 from ..game_state import GameState
@@ -151,7 +151,7 @@ class BattleScene(Scene):
 
     def _check_hiyoko_monster(self) -> None:
         h = self._hiyoko
-        if not h.alive:
+        if not h.alive or GameState.get().invincible:
             return
         for m in self._monsters:
             if m.alive and m.is_hit(h):
@@ -267,19 +267,18 @@ class BattleScene(Scene):
             w.draw(screen)
 
         # HUD
-        self._draw_hud()
+        self._draw_hud(screen)
 
-    def _draw_hud(self) -> None:
+    def _draw_hud(self, screen: np.ndarray) -> None:
         state = GameState.get()
         t_sec = max(0, self._time_left // self._TICKS_PER_SEC)
-        pyxel.text(2, 2, f"SCORE:{state.score}", 15)
-        pyxel.text(SCREEN_WIDTH - 60, 2, f"TIME:{t_sec:3d}", 15)
+        scaled_text(screen, 2, 2, f"SCORE:{state.score}", 15)
+        time_str = f"TIME:{t_sec:3d}"
+        scaled_text(screen, SCREEN_WIDTH - 2 - len(time_str) * 8, 2, time_str, 15)
 
-        # Weapon icon label
         wname = {DAGGER: "DAGGER", SWORD: "SWORD", ROD: "ROD"}
-        pyxel.text(SCREEN_WIDTH - 60, SCREEN_HEIGHT - 10,
-                   wname.get(self._hiyoko.weapon_type, "?"), 15)
+        wname_str = wname.get(self._hiyoko.weapon_type, "?")
+        scaled_text(screen, SCREEN_WIDTH - 2 - len(wname_str) * 8, SCREEN_HEIGHT - 14, wname_str, 15)
 
-        # Key count
-        pyxel.text(2, SCREEN_HEIGHT - 10,
-                   f"KEY:{self._hiyoko.key_count}/{len(self._keys)}", 15)
+        key_str = f"KEY:{self._hiyoko.key_count}/{len(self._keys)}"
+        scaled_text(screen, 2, SCREEN_HEIGHT - 14, key_str, 15)
