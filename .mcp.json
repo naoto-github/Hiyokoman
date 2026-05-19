@@ -2,7 +2,7 @@
   "mcpServers": {
     "pyxel": {
       "type": "stdio",
-      "command": "pyxel-mcp"
+      "command": "/Users/naoto/GitHub/Hiyokoman/.venv/bin/pyxel-mcp"
     }
   }
 }
