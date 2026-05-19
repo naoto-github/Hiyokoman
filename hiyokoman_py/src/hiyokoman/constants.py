@@ -60,3 +60,6 @@ STAGE_BG_COLOR: dict[int, int] = {
 
 # Asset root: hiyokoman_js/ directory at the repo root
 ASSET_ROOT = Path(__file__).parents[3] / "hiyokoman_js"
+
+# Python-specific assets (pyxres files, etc.)
+PY_ASSET_ROOT = Path(__file__).parents[2] / "assets"

@@ -4,7 +4,7 @@ import pyxel
 
 from .base import Scene
 from ..constants import SCREEN_WIDTH, SCREEN_HEIGHT, YELLOW
-from ..renderer import blit, fill, scaled_text
+from ..renderer import blit, scaled_text
 from ..assets import Assets
 from ..audio import AudioManager
 from ..game_state import GameState
@@ -26,7 +26,10 @@ class OpeningScene(Scene):
             self._scenes.replace(BattleScene(self._scenes, 1))
 
     def draw(self, screen: np.ndarray) -> None:
-        fill(screen, 4)  # green background
+        # Background image (bank 0: 256×256, tiled twice to cover 480px width)
+        pyxel.blt(0,   0, 0, 0, 0, 256, 256)
+        pyxel.blt(256, 0, 0, 0, 0, 224, 256)
+        pyxel.rect(0, 256, 480, 64, 4)   # bottom strip (green)
 
         # Big hiyoko character
         assets = Assets.get()

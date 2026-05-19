@@ -38,9 +38,20 @@ class Assets:
 
     def load(self, map_data: "module") -> None:  # type: ignore[name-defined]
         """Load and quantize all game assets. map_data module provides stage arrays."""
+        import pyxel
+        from .constants import YELLOW, RED, BLUE, DAGGER, SWORD, ROD, PY_ASSET_ROOT
         root = ASSET_ROOT
         img = root / "images"
-        from .constants import YELLOW, RED, BLUE, DAGGER, SWORD, ROD
+
+        # --- Opening background (image bank 0) ---
+        bg_path = PY_ASSET_ROOT / "opening_bg.pyxres"
+        if bg_path.exists():
+            pyxel.load(
+                str(bg_path),
+                exclude_tilemaps=True,
+                exclude_sounds=True,
+                exclude_musics=True,
+            )
 
         # --- Characters ---
         self.hiyoko = [
@@ -48,6 +59,7 @@ class Assets:
             SpriteSheet.load(str(img / "characters/hiyoco_lady_full.png"), 32, 32),
             SpriteSheet.load(str(img / "characters/hiyoco_waru_full.png"), 32, 32),
         ]
+
         for name in ["hiyoco_big.png", "hiyoco_big_lady.png", "hiyoco_big_waru.png"]:
             pil = Image.open(img / "characters" / name)
             # Scale to 128×128 for display
