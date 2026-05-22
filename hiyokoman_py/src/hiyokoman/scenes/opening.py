@@ -26,9 +26,9 @@ class OpeningScene(Scene):
             self._scenes.replace(BattleScene(self._scenes, 1))
 
     def draw(self, screen: np.ndarray) -> None:
-        # Background image (bank 0: 256×256, tiled twice to cover 480px width)
+        # Background: bank 0 = left 256px, bank 1 = right 224px
         pyxel.blt(0,   0, 0, 0, 0, 256, 256)
-        pyxel.blt(256, 0, 0, 0, 0, 224, 256)
+        pyxel.blt(256, 0, 1, 0, 0, 224, 256)
         pyxel.rect(0, 256, 480, 64, 4)   # bottom strip (green)
 
         # Big hiyoko character
@@ -40,5 +40,3 @@ class OpeningScene(Scene):
         if (self._tick // 15) % 2 == 0:
             s = "SPACE: START"
             scaled_text(screen, SCREEN_WIDTH // 2 - len(s) * pyxel.FONT_WIDTH, SCREEN_HEIGHT // 2 + 60, s, 15)
-
-        scaled_text(screen, 4, 4, "HIYOKOMAN", 15)
