@@ -48,7 +48,7 @@ class ClearScene(Scene):
         assets = Assets.get()
         if assets.hiyoko_big:
             px, mk = assets.hiyoko_big[self._htype]
-            blit(screen, px, mk, SCREEN_WIDTH // 2 - 64, 30)
+            blit(screen, px, mk, SCREEN_WIDTH // 2 - 64, 80)
         s = "CLEAR!"
         scaled_text(screen, SCREEN_WIDTH // 2 - len(s) * pyxel.FONT_WIDTH, SCREEN_HEIGHT // 2 + 50, s, 14)
         s = f"SCORE: {self._score}"

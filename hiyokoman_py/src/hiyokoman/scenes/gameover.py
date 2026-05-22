@@ -36,7 +36,7 @@ class GameOverScene(Scene):
         assets = Assets.get()
         if assets.hiyoko_big:
             px, mk = assets.hiyoko_big[self._htype]
-            blit(screen, px, mk, SCREEN_WIDTH // 2 - 64, 30)
+            blit(screen, px, mk, SCREEN_WIDTH // 2 - 64, 80)
         s = "GAME OVER"
         scaled_text(screen, SCREEN_WIDTH // 2 - len(s) * pyxel.FONT_WIDTH, SCREEN_HEIGHT // 2 + 50, s, 12)
         s = f"SCORE: {GameState.get().score}"

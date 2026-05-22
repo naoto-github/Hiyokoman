@@ -68,10 +68,10 @@ class Assets:
 
         # --- Monsters ---
         from .constants import SLIME, BAT, WARM, DRAGON, ORIGINAL
-        self.monster[SLIME]    = SpriteSheet.load(str(img / "monster/slime.gif"),  48, 48)
-        self.monster[BAT]      = SpriteSheet.load(str(img / "monster/bat.gif"),    48, 48)
-        self.monster[WARM]     = SpriteSheet.load(str(img / "monster/warm.gif"),   80, 80)
-        self.monster[DRAGON]   = SpriteSheet.load(str(img / "monster/dragon.gif"), 80, 80)
+        self.monster[SLIME]    = SpriteSheet.load(str(img / "monster/slime.png"),  48, 48)
+        self.monster[BAT]      = SpriteSheet.load(str(img / "monster/bat.png"),    48, 48)
+        self.monster[WARM]     = SpriteSheet.load(str(img / "monster/warm.png"),   80, 80)
+        self.monster[DRAGON]   = SpriteSheet.load(str(img / "monster/dragon.png"), 80, 80)
         self.monster[ORIGINAL] = SpriteSheet.load(str(root / "original/character.png"), 32, 32)
 
         # ROCK uses map0 tile 27; THUNDER uses thunder.png (64×240 per frame)

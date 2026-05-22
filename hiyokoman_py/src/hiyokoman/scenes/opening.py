@@ -35,7 +35,7 @@ class OpeningScene(Scene):
         assets = Assets.get()
         if assets.hiyoko_big:
             px, mk = assets.hiyoko_big[YELLOW]
-            blit(screen, px, mk, SCREEN_WIDTH // 2 - 64, 40)
+            blit(screen, px, mk, SCREEN_WIDTH // 2 - 64, 80)
 
         if (self._tick // 15) % 2 == 0:
             s = "SPACE: START"
