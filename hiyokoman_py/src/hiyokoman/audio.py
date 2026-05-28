@@ -27,97 +27,94 @@ class AudioManager:
         pyxel.sounds[idx].set(notes, tones, volumes, effects, speed)
 
     def _define_sounds(self) -> None:
-        # ── Sound index layout ──────────────────────────────────────
-        # Opening   ch0:0-1  ch1:2-3  ch2:4-5   (2 phrases, ~8.5s)
-        # Stage 1   ch0:6-8  ch1:9-11 ch2:12-14 (3 phrases, ~11s)
-        # Stage 2   ch0:15-17 ch1:18-20 ch2:21-23 (3 phrases, ~14s)
-        # Stage 3   ch0:24-26 ch1:27-29 ch2:30-32 (3 phrases, ~10s)
-        # Stage 4   ch0:33-35 ch1:36-38 ch2:39-41 (3 phrases, ~13s)
-        # Game Over ch0:42  ch1:43  ch2:44   (1 phrase, ~7.5s, once)
-        # Clear     ch0:45  ch1:46  ch2:47   (1 phrase, ~3.7s, once)
-        # SE        48-57
-        # ────────────────────────────────────────────────────────────
+        # ── Pyxel octave note: c1=C3(130Hz) c2=C4(261Hz) c3=C5(523Hz) ──
+        # Melody  range: c2-c3  (standard C4-C5, 261-523 Hz)
+        # Harmony range: c1-c2  (standard C3-C4, 130-261 Hz)
+        # Bass    range: c0-b0  (standard C2-B2,  65-123 Hz)
+        #
+        # Slot layout:
+        #   Opening  0-5   (3ch × 2 phrases, ~8.5s)
+        #   Stage 1  6-14  (3ch × 3 phrases, ~11s)
+        #   Stage 2  15-23 (3ch × 3 phrases, ~14s)
+        #   Stage 3  24-32 (3ch × 3 phrases, ~10s)
+        #   Stage 4  33-41 (3ch × 3 phrases, ~13s)
+        #   Gameover 42-44 (1 phrase, ~7.5s, plays once)
+        #   Clear    45-47 (1 phrase, ~3.7s, plays once)
+        #   SE       48-57
 
-        # ── Opening BGM: C major, cheerful title screen ──────────────
-        # speed 8 → 16 notes × 8/30 ≈ 4.3s per phrase  (2 phrases = ~8.5s loop)
-        self._s( 0, "c3 e3 g3 c4 b3 g3 a3 c4 g3 e3 f3 a3 e3 c3 d3 r", "s", "7", "n", 8)
-        self._s( 1, "f3 a3 c4 f4 e4 c4 a3 g3 e3 g3 b3 e4 d4 b3 c4 r", "s", "7", "n", 8)
-        self._s( 2, "e2 g2 c3 e3 d3 b2 c3 e3 e2 c2 d2 f2 c2 a1 b1 r", "t", "5", "n", 8)
-        self._s( 3, "d2 f2 a2 d3 c3 a2 f2 e2 g2 b2 d3 g3 f3 d3 e3 r", "t", "5", "n", 8)
-        self._s( 4, "c1 r r c1 g1 r r g1 a1 r r a1 g1 r r r",          "p", "6", "n", 8)
-        self._s( 5, "f1 r r f1 c1 r r c1 g1 r r g1 c1 r r r",          "p", "6", "n", 8)
+        # ── Opening BGM: C major, welcoming ──────────────────────────
+        self._s( 0, "c2 e2 g2 e2 c3 b2 a2 g2 f2 a2 c3 b2 a2 g2 f2 r", "s", "7", "n", 8)
+        self._s( 1, "g2 b2 d3 g3 f3 d3 b2 g2 a2 c3 e3 c3 a2 g2 e2 r", "s", "7", "n", 8)
+        self._s( 2, "e1 g1 c2 g1 a1 d2 f2 e2 d2 f2 a2 g2 f2 e2 d2 r", "t", "5", "n", 8)
+        self._s( 3, "b1 d2 g2 b2 a2 g2 d2 b1 c2 e2 g2 e2 d2 c2 b1 r", "t", "5", "n", 8)
+        self._s( 4, "c0 r r c0 f0 r r f0 g0 r r g0 c0 r r r",          "p", "6", "n", 8)
+        self._s( 5, "g0 r r g0 d0 r r d0 a0 r r a0 c0 r r r",          "p", "6", "n", 8)
 
-        # ── Stage 1 BGM: C major, sunny meadow, upbeat ───────────────
-        # speed 7 → 3 phrases = 48 notes × 7/30 ≈ 11.2s loop
-        self._s( 6, "c3 e3 g3 c4 a3 g3 e3 g3 f3 a3 c4 f4 e4 c4 a3 r", "s", "7", "n", 7)
-        self._s( 7, "g3 b3 d4 g4 f4 d4 b3 a3 g3 a3 b3 c4 d4 e4 f4 r", "s", "7", "n", 7)
-        self._s( 8, "e3 f3 g3 a3 g3 f3 e3 d3 c3 e3 g3 c4 g3 e3 c3 r", "s", "7", "n", 7)
-        self._s( 9, "e2 g2 c3 e3 f2 e2 c2 e2 d2 f2 a2 d3 c3 a2 f2 r", "t", "5", "n", 7)
-        self._s(10, "e2 g2 b2 e3 d3 b2 g2 f2 e2 f2 g2 a2 b2 c3 d3 r", "t", "5", "n", 7)
-        self._s(11, "c2 d2 e2 f2 e2 d2 c2 b1 a1 c2 e2 a2 e2 c2 a1 r", "t", "5", "n", 7)
-        self._s(12, "c1 r c1 r f1 r f1 r g1 r g1 r c1 r r r",          "p", "6", "n", 7)
-        self._s(13, "g1 r g1 r d1 r d1 r g1 r g1 r d1 r d1 r",         "p", "6", "n", 7)
-        self._s(14, "a1 r a1 r g1 r g1 r c1 r c1 r c1 r r r",          "p", "6", "n", 7)
+        # ── Stage 1 BGM: C major, sunny and upbeat ───────────────────
+        self._s( 6, "c2 e2 g2 c3 a2 g2 e2 c2 f2 a2 c3 a2 g2 e2 c2 r", "s", "7", "n", 7)
+        self._s( 7, "g2 b2 d3 g3 f3 d3 b2 g2 a2 c3 b2 a2 g2 f2 e2 r", "s", "7", "n", 7)
+        self._s( 8, "e2 g2 b2 e3 d3 b2 g2 e2 f2 a2 c3 a2 g2 e2 c2 r", "s", "7", "n", 7)
+        self._s( 9, "e1 g1 c2 e2 f1 c2 a1 e1 d1 f1 a1 f2 e2 c2 a1 r", "t", "5", "n", 7)
+        self._s(10, "b1 d2 g2 b2 a2 g2 d2 b1 c2 e2 g2 e2 c2 b1 g1 r", "t", "5", "n", 7)
+        self._s(11, "c2 e2 g2 c3 b2 g2 e2 c2 d2 f2 a2 f2 e2 c2 a1 r", "t", "5", "n", 7)
+        self._s(12, "c0 r c0 r f0 r f0 r g0 r g0 r c0 r r r",          "p", "6", "n", 7)
+        self._s(13, "g0 r g0 r d0 r d0 r a0 r a0 r e0 r e0 r",         "p", "6", "n", 7)
+        self._s(14, "a0 r a0 r g0 r g0 r c0 r c0 r c0 r r r",          "p", "6", "n", 7)
 
         # ── Stage 2 BGM: A minor, mysterious castle ──────────────────
-        # speed 9 → 3 phrases = 48 notes × 9/30 ≈ 14.4s loop
-        self._s(15, "a3 r c4 b3 a3 g3 f3 e3 d3 e3 f3 g3 a3 b3 c4 r",  "s", "7", "n", 9)
-        self._s(16, "c4 b3 a3 g3 f3 e3 d3 c3 e3 a3 g3 f3 e3 d3 c3 r",  "s", "7", "n", 9)
-        self._s(17, "e3 f3 g3 a3 b3 a3 g3 f3 e3 d3 c3 a2 c3 e3 a3 r",  "s", "7", "n", 9)
-        self._s(18, "a2 r e3 d3 c3 b2 a2 g2 f2 g2 a2 b2 c3 d3 e3 r",   "t", "5", "n", 9)
-        self._s(19, "e3 d3 c3 b2 a2 g2 f2 e2 c2 f2 e2 d2 c2 b1 a1 r",  "t", "5", "n", 9)
-        self._s(20, "c2 d2 e2 f2 g2 f2 e2 d2 c2 b1 a1 f1 a1 c2 f2 r",  "t", "5", "n", 9)
-        self._s(21, "a1 r r a1 e1 r r e1 d1 r r d1 e1 r r r",           "p", "6", "n", 9)
-        self._s(22, "a1 r a1 r f1 r f1 r c1 r c1 r e1 r e1 r",          "p", "6", "n", 9)
-        self._s(23, "e1 r e1 r d1 r d1 r c1 r c1 r a1 r r r",           "p", "6", "n", 9)
+        self._s(15, "a2 r c3 b2 a2 g2 f2 e2 d2 e2 f2 g2 a2 b2 c3 r",  "s", "7", "n", 9)
+        self._s(16, "c3 b2 a2 g2 f2 e2 d2 c2 e2 a2 g2 f2 e2 d2 c2 r",  "s", "7", "n", 9)
+        self._s(17, "e2 f2 g2 a2 b2 a2 g2 f2 e2 d2 c2 a1 c2 e2 a2 r",  "s", "7", "n", 9)
+        self._s(18, "a1 r e2 d2 c2 b1 a1 g1 f1 g1 a1 b1 c2 d2 e2 r",   "t", "5", "n", 9)
+        self._s(19, "e2 d2 c2 b1 a1 g1 f1 e1 c1 f1 e1 d1 c1 b0 a0 r",  "t", "5", "n", 9)
+        self._s(20, "c1 d1 e1 f1 g1 f1 e1 d1 c1 b0 a0 f0 a0 c1 f1 r",  "t", "5", "n", 9)
+        self._s(21, "a0 r r a0 e0 r r e0 d0 r r d0 e0 r r r",           "p", "6", "n", 9)
+        self._s(22, "a0 r a0 r f0 r f0 r c0 r c0 r e0 r e0 r",          "p", "6", "n", 9)
+        self._s(23, "e0 r e0 r d0 r d0 r c0 r c0 r a0 r r r",           "p", "6", "n", 9)
 
-        # ── Stage 3 BGM: E minor, relentless rock drive ──────────────
-        # speed 6 → 3 phrases = 48 notes × 6/30 ≈ 9.6s loop (fastest)
-        self._s(24, "e3 f3 g3 a3 b3 a3 g3 f3 e3 d3 c3 d3 e3 f3 g3 e3", "s", "7", "n", 6)
-        self._s(25, "b3 c4 d4 e4 d4 c4 b3 a3 g3 a3 b3 c4 b3 a3 g3 r",  "s", "7", "n", 6)
-        self._s(26, "a3 g3 f3 e3 d3 e3 f3 g3 a3 b3 a3 g3 f3 e3 r r",   "s", "7", "n", 6)
-        self._s(27, "b2 c3 d3 e3 f3 e3 d3 c3 b2 a2 g2 a2 b2 c3 d3 b2", "t", "5", "n", 6)
-        self._s(28, "g3 a3 b3 c4 b3 a3 g3 f3 e3 f3 g3 a3 g3 f3 e3 r",  "t", "5", "n", 6)
-        self._s(29, "f3 e3 d3 c3 b2 c3 d3 e3 f3 g3 f3 e3 d3 c3 r r",   "t", "5", "n", 6)
-        self._s(30, "e1 r e1 r g1 r g1 r a1 r a1 r b1 r b1 r",          "p", "6", "n", 6)
-        self._s(31, "e1 r b1 r d1 r a1 r g1 r e1 r b1 r r r",           "p", "6", "n", 6)
-        self._s(32, "a1 r a1 r g1 r g1 r f1 r e1 r e1 r r r",           "p", "6", "n", 6)
+        # ── Stage 3 BGM: E minor, relentless drive ───────────────────
+        self._s(24, "e2 f2 g2 a2 b2 a2 g2 f2 e2 d2 c2 d2 e2 f2 g2 e2", "s", "7", "n", 6)
+        self._s(25, "b2 c3 d3 e3 d3 c3 b2 a2 g2 a2 b2 c3 b2 a2 g2 r",  "s", "7", "n", 6)
+        self._s(26, "a2 g2 f2 e2 d2 e2 f2 g2 a2 b2 a2 g2 f2 e2 r r",   "s", "7", "n", 6)
+        self._s(27, "b1 c2 d2 e2 f2 e2 d2 c2 b1 a1 g1 a1 b1 c2 d2 b1", "t", "5", "n", 6)
+        self._s(28, "g2 a2 b2 c3 b2 a2 g2 f2 e2 f2 g2 a2 g2 f2 e2 r",  "t", "5", "n", 6)
+        self._s(29, "f2 e2 d2 c2 b1 c2 d2 e2 f2 g2 f2 e2 d2 c2 r r",   "t", "5", "n", 6)
+        self._s(30, "e0 r e0 r g0 r g0 r a0 r a0 r b0 r b0 r",          "p", "6", "n", 6)
+        self._s(31, "e0 r b0 r d0 r a0 r g0 r e0 r b0 r r r",           "p", "6", "n", 6)
+        self._s(32, "a0 r a0 r g0 r g0 r f0 r e0 r e0 r r r",           "p", "6", "n", 6)
 
         # ── Stage 4 BGM: D minor, epic space / final boss ────────────
-        # speed 8 → 3 phrases = 48 notes × 8/30 ≈ 12.8s loop
-        self._s(33, "d3 r d3 r f3 e3 d3 c3 b2 c3 d3 e3 f3 a3 g3 r",   "s", "7", "n", 8)
-        self._s(34, "a3 b3 c4 d4 c4 b3 a3 g3 f3 g3 a3 b3 c4 d4 e4 r", "s", "7", "n", 8)
-        self._s(35, "d4 c4 b3 a3 g3 f3 e3 d3 c3 d3 e3 f3 a3 f3 d3 r", "s", "7", "n", 8)
-        self._s(36, "f2 r f2 r a2 g2 f2 e2 d2 e2 f2 g2 a2 c3 b2 r",   "t", "5", "n", 8)
-        self._s(37, "f2 g2 a2 b2 a2 g2 f2 e2 d2 e2 f2 g2 a2 b2 c3 r", "t", "5", "n", 8)
-        self._s(38, "b3 a3 g3 f3 e3 d3 c3 b2 a2 b2 c3 d3 f3 d3 b2 r", "t", "5", "n", 8)
-        self._s(39, "d1 r r d1 a1 r r a1 f1 r r f1 c1 r r r",          "p", "6", "n", 8)
-        self._s(40, "d1 r a1 r f1 r c1 r g1 r d1 r a1 r e1 r",         "p", "6", "n", 8)
-        self._s(41, "d1 r d1 r c1 r c1 r f1 r f1 r d1 r r r",          "p", "6", "n", 8)
+        self._s(33, "d2 r d2 r f2 e2 d2 c2 b1 c2 d2 e2 f2 a2 g2 r",   "s", "7", "n", 8)
+        self._s(34, "a2 b2 c3 d3 c3 b2 a2 g2 f2 g2 a2 b2 c3 d3 e3 r", "s", "7", "n", 8)
+        self._s(35, "d3 c3 b2 a2 g2 f2 e2 d2 c2 d2 e2 f2 a2 f2 d2 r", "s", "7", "n", 8)
+        self._s(36, "f1 r f1 r a1 g1 f1 e1 d1 e1 f1 g1 a1 c2 b1 r",   "t", "5", "n", 8)
+        self._s(37, "f1 g1 a1 b1 a1 g1 f1 e1 d1 e1 f1 g1 a1 b1 c2 r", "t", "5", "n", 8)
+        self._s(38, "b2 a2 g2 f2 e2 d2 c2 b1 a1 b1 c2 d2 f2 d2 b1 r", "t", "5", "n", 8)
+        self._s(39, "d0 r r d0 a0 r r a0 f0 r r f0 c0 r r r",          "p", "6", "n", 8)
+        self._s(40, "d0 r a0 r f0 r c0 r g0 r d0 r a0 r e0 r",         "p", "6", "n", 8)
+        self._s(41, "d0 r d0 r c0 r c0 r f0 r f0 r d0 r r r",          "p", "6", "n", 8)
 
-        # ── Game Over BGM: C minor, slow sad descent (plays once) ────
-        # speed 14 → 16 notes × 14/30 ≈ 7.5s
-        self._s(42, "g3 r f3 r e3 r d3 r c3 r b2 r a2 r g2 r", "t", "7", "n", 14)
-        self._s(43, "e2 r d2 r c2 r b1 r a1 r g1 r f1 r e1 r", "t", "5", "n", 14)
-        self._s(44, "c2 r r r a1 r r r f1 r r r c1 r r r",     "p", "5", "n", 14)
+        # ── Game Over BGM: C minor, slow descent (plays once) ────────
+        self._s(42, "g2 r f2 r e2 r d2 r c2 r b1 r a1 r g1 r", "t", "7", "n", 14)
+        self._s(43, "e1 r d1 r c1 r b0 r a0 r g0 r f0 r e0 r", "t", "5", "n", 14)
+        self._s(44, "c1 r r r a0 r r r f0 r r r c0 r r r",     "p", "5", "n", 14)
 
         # ── Clear BGM: C major, triumphant fanfare (plays once) ──────
-        # speed 7 → 16 notes × 7/30 ≈ 3.7s
-        self._s(45, "c3 e3 g3 c4 e4 g4 b4 r a4 g4 e4 c4 g3 e3 c3 r", "s", "7", "n", 7)
-        self._s(46, "e2 g2 c3 e3 g3 c4 e4 r d4 b3 g3 e3 c3 g2 e2 r", "t", "5", "n", 7)
-        self._s(47, "c1 r e1 r g1 r c1 r g1 r c1 r e1 r c1 r",        "p", "6", "n", 7)
+        self._s(45, "c2 e2 g2 c3 e3 g3 b3 r a3 g3 e3 c3 g2 e2 c2 r", "s", "7", "n", 7)
+        self._s(46, "e1 g1 c2 e2 g2 c3 d3 r e3 d3 c3 a2 e2 c2 a1 r", "t", "5", "n", 7)
+        self._s(47, "c0 r e0 r g0 r c1 r g0 r c1 r g0 r c0 r",        "p", "6", "n", 7)
 
         # ── Sound Effects (48-57) ─────────────────────────────────────
-        self._s(48, "c3 e3 g3 c4",                   "ssss",     "7654",     "nnnn",     4)  # select
-        self._s(49, "b3 a3 g3 r",                    "ssss",     "7430",     "nssn",     3)  # attack_dagger
-        self._s(50, "e3 f3 g3 a3 r r",              "ssssss",   "776500",   "nnssnn",   4)  # attack_sword
-        self._s(51, "c4 e4 g4 b4",                   "tttt",     "7654",     "nnvf",     3)  # attack_rod
-        self._s(52, "a2 r r r",                      "nnnn",     "7531",     "nfff",     5)  # bomb
-        self._s(53, "c3 g3 c4 e4",                   "ssss",     "7777",     "nnnn",     4)  # get
-        self._s(54, "c3 e3 g3 c4 e4 c4 r r",        "ssssssss", "77777500", "nnnnnnnn", 5)  # castle
-        self._s(55, "c3 d3 e3 f3 g3 a3 b3 c4",      "tttttttt", "33445677", "nnnnvvvf", 4)  # transform
-        self._s(56, "c3 r r c3 r r r r",             "nnnnnnnn", "74007400", "nnnnnnnn", 4)  # thunder
-        self._s(57, "f3 g3 f3 r",                    "ssss",     "7650",     "nssn",     4)  # clash
+        self._s(48, "c2 e2 g2 c3",                   "ssss",     "7654",     "nnnn",     4)  # select
+        self._s(49, "b2 a2 g2 r",                    "ssss",     "7430",     "nssn",     3)  # attack_dagger
+        self._s(50, "e2 f2 g2 a2 r r",              "ssssss",   "776500",   "nnssnn",   4)  # attack_sword
+        self._s(51, "c3 e3 g3 b3",                   "tttt",     "7654",     "nnvf",     3)  # attack_rod
+        self._s(52, "a1 r r r",                      "nnnn",     "7531",     "nfff",     5)  # bomb
+        self._s(53, "c2 g2 c3 e3",                   "ssss",     "7777",     "nnnn",     4)  # get
+        self._s(54, "c2 e2 g2 c3 e3 c3 r r",        "ssssssss", "77777500", "nnnnnnnn", 5)  # castle
+        self._s(55, "c2 d2 e2 f2 g2 a2 b2 c3",      "tttttttt", "33445677", "nnnnvvvf", 4)  # transform
+        self._s(56, "c2 r r c2 r r r r",             "nnnnnnnn", "74007400", "nnnnnnnn", 4)  # thunder
+        self._s(57, "f2 g2 f2 r",                    "ssss",     "7650",     "nssn",     4)  # clash
 
     def _define_music(self) -> None:
         pyxel.musics[0].set([0,  1   ], [2,  3   ], [4,  5   ], [])  # Opening
